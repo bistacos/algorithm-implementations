@@ -1,4 +1,5 @@
-var testArr = [5,2,3,1,4];
+var items = [4, 2, 6, 5, 3, 9];
+;
 
 // Generic swap function to exchange two elements in an array
 function swap (arr, pos1, pos2) {
@@ -10,6 +11,7 @@ function swap (arr, pos1, pos2) {
 
   return arr;
 };
+
 
 /* 
 Bubble sort: works by "bubbling" the largest element to the end of
@@ -78,31 +80,74 @@ runtime is highly dependent on the gaps used.
 Actual average runtime with well-chosen gaps (see 'Hibbard's gap sequence')
 is conjectured to be O(N5/4).
 */
-function shellSort (a) {
-    for (var h = a.length; h = parseInt(h / 2);) {
-        for (var i = h; i < a.length; i++) {
-            var k = a[i];
-            for (var j = i; j >= h && k < a[j - h]; j -= h)
-                a[j] = a[j - h];
-            a[j] = k;
-        }
+function shellSort (arr) {
+  for (var g = arr.length; g = parseInt(g / 2);) {
+    for (var i = g; i < arr.length; i++) {
+      var k = arr[i];
+      for (var j = i; j >= g && k < arr[j - g]; j -= g) {
+        arr[j] = arr[j - g];
+      }
+    	arr[j] = k;
     }
-    return a;
+  }
+    return arr;
 }
 
-// function shellSort (array) {
-//   var arr = array;
-//   var gaps = [701, 301, 132, 57, 23, 10, 4, 1];
+/*
+Quicksort: the ubiquitous divide-and-conquer algorith used in JS
+Array.prototype.sort() and V8 on arrays longer than 23 items
 
-//   for (var gap in gaps) {
-//     for (var i = g; i < arr.length; i += g) {
-//       var j = i;
-//       while (j >= g && arr[j] < arr[j-g]) {
-//         swap(arr, j, j-g);
-//         j -= g;
-//       }
-//     }
-//   }
+For studying purposes, I took a generic quicksort algorithm that uses
+the usual partition-and-recursively-sort method and commented along to
+help explain how it works.
 
-//   return arr;
-// };
+Runtime: O(nlog(n)) average case, O(n^2) worst case, O(n) best case
+*/
+
+
+function partition (arr, left, right) { /* parameters: an array of items
+	to sort, an index to start the left pointer at, and and index to start
+	the right pointer at.
+	*/
+
+	var pivot = arr[Math.floor((right + left) / 2)];
+	var i = left;
+	var j = right;
+
+	// while the left pointer index is less than the right pointer index...
+	while (i <= j) {
+
+		// ...and the item there is less than the pivot value
+		while (arr[i] < pivot) {
+			// increment i
+			i++;
+		}
+
+		// then, while the value at the right index is greater than
+		// the pivot value...
+		while (arr[j] > pivot) {
+			// decrement j
+			j--;
+		}
+
+		// as long as i is still less than j, swap the values at arr[i] and
+		// arr[j]
+		if (i <= j) {
+			swap(arr, i, j);
+			i++;
+			j--;
+		}		
+	}
+
+	// return the index up to which the array is partitioned so that we can
+	// recursively do the same thing to the remaining section of the array
+	return i;
+}
+
+
+/* kudos to Nick at
+https://www.nczonline.net/blog/2012/11/27/computer-science-in-javascript-quicksort/
+for a lucid explanation of the algorithm using JS
+*/
+
+
