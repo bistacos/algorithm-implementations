@@ -1,5 +1,4 @@
 var items = [4, 2, 6, 5, 3, 9];
-;
 
 // Generic swap function to exchange two elements in an array
 function swap (arr, pos1, pos2) {
@@ -105,49 +104,87 @@ Runtime: O(nlog(n)) average case, O(n^2) worst case, O(n) best case
 */
 
 
-function partition (arr, left, right) { /* parameters: an array of items
+
+function quickSort(items, left, right) {
+
+	// A partitioning function to be used by Quicksort and similar algorithms
+	function partition (arr, left, right) { /* parameters: an array of items
 	to sort, an index to start the left pointer at, and and index to start
 	the right pointer at.
 	*/
 
-	var pivot = arr[Math.floor((right + left) / 2)];
-	var i = left;
-	var j = right;
+			var pivot = arr[Math.floor((right + left) / 2)];
+			var i = left;
+			var j = right;
 
-	// while the left pointer index is less than the right pointer index...
-	while (i <= j) {
+			// while the left pointer index is less than the right pointer index...
+			while (i <= j) {
 
-		// ...and the item there is less than the pivot value
-		while (arr[i] < pivot) {
-			// increment i
-			i++;
-		}
+				// ...and the item there is less than the pivot value
+				while (arr[i] < pivot) {
+					// increment i
+					i++;
+				}
 
-		// then, while the value at the right index is greater than
-		// the pivot value...
-		while (arr[j] > pivot) {
-			// decrement j
-			j--;
-		}
+				// then, while the value at the right index is greater than
+				// the pivot value...
+				while (arr[j] > pivot) {
+					// decrement j
+					j--;
+				}
 
-		// as long as i is still less than j, swap the values at arr[i] and
-		// arr[j]
-		if (i <= j) {
-			swap(arr, i, j);
-			i++;
-			j--;
-		}		
+				// as long as i is still less than j, swap the values at arr[i] and
+				// arr[j]
+				if (i <= j) {
+					swap(arr, i, j);
+					i++;
+					j--;
+				}		
+			}
+
+			/* return the index up to which the array is partitioned (the last
+			 	index of the left pointer) so that we can	recursively do the same 
+				thing to the remaining section of the array */
+			return i;
 	}
+		
+	var items = items;
+  var index;
 
-	// return the index up to which the array is partitioned so that we can
-	// recursively do the same thing to the remaining section of the array
-	return i;
+  // performance optimizer: don't sort the array if 2 or fewer items
+  if (items.length > 1) {
+
+  		// auto-supply values for left and right if not supplied (this
+  			// makes the function a bit more user-friendly)
+      left = typeof left != "number" ? 0 : left;
+      right = typeof right != "number" ? items.length - 1 : right;
+
+      // partition: this gradually takes care of the sorting
+      index = partition(items, left, right);
+
+
+      if (left < index - 1) {
+      		// index is greater than left pointer, so there are 
+      		// still items on the left to be sorted, so quickSort() is 
+      		// called recursively on these
+          quickSort(items, left, index - 1);
+      }
+
+      if (index < right) {
+      		// index is still less than right pointer, so there are still
+      		// items on the right to be sorted
+          quickSort(items, index, right);
+      }
+  }
+
+  // return all quicksorted items, or (triggering the end of a recursion)
+  // just the items themselves if fewer than 2 items
+  return items;
 }
-
 
 /* kudos to Nick at
 https://www.nczonline.net/blog/2012/11/27/computer-science-in-javascript-quicksort/
-for a lucid explanation of the algorithm using JS
+for a lucid step-by-step explanation of the algorithm using JavaScript
 */
 
 
