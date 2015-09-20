@@ -30,6 +30,13 @@ function bubbleSort (array) {
   return arr;
 };
 
+/*
+Insertion sort: works by bubbling an element to the left until it is
+equal to or larger than the element on its left.
+
+Runtime: O(n^2) complexity on unsorted arrays, but O(n) complexity
+on sorted or nearly-sorted arrays
+*/
 function insertionSort (array) {
   var arr = array;
 
@@ -42,7 +49,7 @@ function insertionSort (array) {
   }
 
   return arr;
-}
+};
 
 /*
 Selection sort: works by iterating through the array, placing
@@ -61,3 +68,41 @@ function selectionSort (array) {
   return arr;
 };
 
+/*
+Shell sort: first proposed by Donald Shell, may be more easily remembered
+as a "gap sort."  It's a variant of the bubble sort or insertion sort that
+uses gaps (set manually) to exchange elements that are far apart first, then
+use progressively smaller gaps.  It's not used in practice these days and its 
+runtime is highly dependent on the gaps used.
+
+Actual average runtime with well-chosen gaps (see 'Hibbard's gap sequence')
+is conjectured to be O(N5/4).
+*/
+function shellSort (a) {
+    for (var h = a.length; h = parseInt(h / 2);) {
+        for (var i = h; i < a.length; i++) {
+            var k = a[i];
+            for (var j = i; j >= h && k < a[j - h]; j -= h)
+                a[j] = a[j - h];
+            a[j] = k;
+        }
+    }
+    return a;
+}
+
+// function shellSort (array) {
+//   var arr = array;
+//   var gaps = [701, 301, 132, 57, 23, 10, 4, 1];
+
+//   for (var gap in gaps) {
+//     for (var i = g; i < arr.length; i += g) {
+//       var j = i;
+//       while (j >= g && arr[j] < arr[j-g]) {
+//         swap(arr, j, j-g);
+//         j -= g;
+//       }
+//     }
+//   }
+
+//   return arr;
+// };
