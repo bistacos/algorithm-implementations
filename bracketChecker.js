@@ -1,4 +1,5 @@
 function bracketsMatch () {
+	// data to test with
 	var data = [ ")(){}", "[]({})", "([])", "{()[]}", "([)]", "()()()()()()[]{}" ];
 
 	var pairs = {
@@ -25,11 +26,12 @@ function bracketsMatch () {
 		return checkValidParens(a);
 	}
 
+	// tests the above function with the supplied data
     while (data.length) {
     	var str = data.shift();
-    	var pattern = /[a-zA-Z0-9\s]/g; //remove letters, numbers, and spaces
+    	var pattern = /[a-zA-Z0-9\s]/g; //regex to remove letters, numbers, and spaces
     	var arr = str.replace(pattern, '').split('');
-
+		// logs each return of checkValidParens for debugging
 		console.log(checkValidParens(arr));
     }
     return "done!";
