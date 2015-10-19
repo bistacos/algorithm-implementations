@@ -17,6 +17,11 @@ function bracketsMatch () {
 			return true;
 		} else {
 			for (var i = 0, l = length; i < l; i++) {
+				/* here's where the function works its magic: any valid set of 
+				* parentheses will at some point have a matching pair immediately 
+				*  next to each other.  Splice those out, and the same should hold
+				* true on the resulting array until it is either not valid or there
+				are no further items to check. */
 				if ( pairs[a[i]] === a[i+1] ) {
 					a.splice(i, 2);
 					break;
