@@ -3,8 +3,6 @@
 
 function perfectSquares (A,B) {
 	var perfs = [];
-
-
 	var lowestSqrt = Math.sqrt(Math.min(Math.abs(A), Math.abs(B)));
 	var highestSqrt = Math.sqrt(Math.max(Math.abs(A), Math.abs(B)));
 
